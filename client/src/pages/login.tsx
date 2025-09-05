@@ -14,8 +14,8 @@ interface LoginProps {
 
 export default function Login({ onLogin }: LoginProps) {
   const [isAdminLogin, setIsAdminLogin] = useState(true);
-  const [username, setUsername] = useState("aditya");
-  const [password, setPassword] = useState("QAZwsx@12@");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [studentId, setStudentId] = useState("");
   const [studentPassword, setStudentPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
