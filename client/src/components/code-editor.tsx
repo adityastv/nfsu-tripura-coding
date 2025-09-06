@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { getISTTime } from "@/lib/time";
 import { Play, Check, Send } from "lucide-react";
-import type { Question, MCQQuestion, CodingQuestion, CTFQuestion } from "@shared/schema";
+import type { Question, MCQQuestion, CodingQuestion, CTFQuestion,InsertSubmission } from "@shared/schema";
 
 interface CodeEditorProps {
   question: Question;
@@ -55,7 +55,8 @@ export default function CodeEditor({ question }: CodeEditorProps) {
   const [isRunning, setIsRunning] = useState(false);
 
   const submitMutation = useMutation({
-    mutationFn: async (submissionData: any) => {
+    mutationFn: async (submissionData: InsertSubmission) => {
+      console.log("Submitting data:", submissionData);
       const response = await apiRequest("POST", "/api/submissions", submissionData);
       return response.json();
     },

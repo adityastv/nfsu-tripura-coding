@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { auth } from "@/lib/auth";
 import CodeEditor from "@/components/code-editor";
-import { Users, Clock } from "lucide-react";
+import { Users, Clock, CheckCircle } from "lucide-react";
 import type { Question, Submission } from "@shared/schema";
 
 export default function StudentPractice() {
