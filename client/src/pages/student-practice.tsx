@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { auth } from "@/lib/auth";
 import CodeEditor from "@/components/code-editor";
 import { Users, Clock } from "lucide-react";
-import type { Question } from "@shared/schema";
+import type { Question, Submission } from "@shared/schema";
 
 export default function StudentPractice() {
   const user = auth.getUser();
@@ -21,7 +21,7 @@ export default function StudentPractice() {
     queryKey: ["/api/questions"],
   });
 
-  const { data: submissions = [] } = useQuery({
+  const { data: submissions = [] } = useQuery<Submission[]>({
     queryKey: ["/api/submissions/user", user?.id],
     enabled: !!user?.id,
   });

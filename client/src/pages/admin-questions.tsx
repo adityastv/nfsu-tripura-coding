@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery,useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,13 +8,39 @@ import { Plus, Edit, Trash2 } from "lucide-react";
 import MCQForm from "@/components/question-forms/mcq-form";
 import CodingForm from "@/components/question-forms/coding-form";
 import CTFForm from "@/components/question-forms/ctf-form";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Question } from "@shared/schema";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminQuestions() {
   const [activeTab, setActiveTab] = useState("mcq");
+  const { toast } = useToast();
+
 
   const { data: questions = [], isLoading } = useQuery<Question[]>({
     queryKey: ["/api/questions"],
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: async (questionId: string) => {
+      const response = await apiRequest("DELETE", `/api/questions/${questionId}`);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/questions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
+      toast({
+        title: "Success",
+        description: "Question deleted successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to delete Question",
+        variant: "destructive",
+      });
+    },
   });
 
   const getDifficultyColor = (difficulty: string) => {
@@ -114,6 +140,7 @@ export default function AdminQuestions() {
                       size="sm"
                       data-testid={`button-delete-question-${question.id}`}
                       className="text-destructive hover:text-destructive/80"
+                      onClick={() => deleteUserMutation.mutate(question.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
