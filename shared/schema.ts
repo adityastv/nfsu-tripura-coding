@@ -86,7 +86,7 @@ export const submissionSchema = z.object({
   answer: z.string(),
   isCorrect: z.boolean(),
   points: z.number(),
-  submittedAt: z.date(),
+  submittedAt: z.coerce.date(),
   executionTime: z.number().optional(),
   memoryUsed: z.number().optional(),
 });
